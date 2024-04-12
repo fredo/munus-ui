@@ -16,18 +16,20 @@ const BTN_ICON_CLASSNAME = "inline w-5 h-5 -mt-1";
 export const WITHDRAWAL_GAS = 3850000n;
 const WITHDRAWAL_TX_COMPRESSED_SIZE = 2900n;
 
+export function getRandomBytes32(): string {
+    const length: number = 64;
+    const array: number[] = [...Array(length)];
+    const number: string = array.map(() => Math.floor(Math.random() * 16).toString(16)).join("");
+    return "0x" + number;
+}
+
 export function MainForm({ locked, setLocked, calculators }) {
   const { address, chain } = useAccount();
 
-  const [display, setDisplay] = useState("");
+  const [recipient, setRecipient] = useState("");
+  const [secret, _setSecret] = useState(getRandomBytes32());
 
   const initiateDonation = useInitiateDonation();
-
-  const data = encodeFunctionData({
-    abi: MUNUS_ABI,
-    functionName: "trampoline",
-    args: [display],
-  });
 
   let gas = 0n;
   if (chain?.name === "Base") {
@@ -40,12 +42,11 @@ export function MainForm({ locked, setLocked, calculators }) {
   if (chain === undefined)
     helper = "Please connect your wallet to a supported network.";
   // will need an error case for non-flask.
-  else if (display === "")
+  else if (recipient === "")
     helper = "Please enter a nonempty message.";
 
   const tip = Math.round(parseFloat(formatUnits(gas, 15)));
   const message = `Your donation will cost ${(tip / 1000).toFixed(3)} ETH in gas.`;
-  const secret = "<<SECRET>>";
   return (
     <Card title="ANONYMOUSLY DONATE">
       <div className="text-sm text-yellow-700 pb-2">
@@ -58,8 +59,8 @@ export function MainForm({ locked, setLocked, calculators }) {
       <MessageField
         error={helper.length > 0}
         helper={helper}
-        display={display}
-        setDisplay={setDisplay}
+        recipient={recipient}
+        setRecipient={setRecipient}
         locked={locked}
         label="Receiving Address"
       />
@@ -74,13 +75,18 @@ export function MainForm({ locked, setLocked, calculators }) {
           !address
           || locked
           || helper.length > 0
-          || display === ""
+          || recipient === ""
         }
         pendingLabel="DONATING ANONYMOUSLY"
         label={<>DONATE ANONYMOUSLY <PaperAirplaneIcon className={BTN_ICON_CLASSNAME}/></>}
         onClick={() => {
+           const data = encodeFunctionData({
+             abi: MUNUS_ABI,
+             functionName: "trampoline",
+             args: [recipient, secret],
+           });
           return initiateDonation({
-            setDisplay,
+            setRecipient,
             setLocked,
             data,
             tip,
