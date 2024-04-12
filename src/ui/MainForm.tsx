@@ -7,9 +7,9 @@ import { MessageField } from "@components/MessageField";
 import { useAccount } from "wagmi";
 import { optimismTxCompressedSize } from "utils/gas";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
-import { useInitiateBroadcast } from "hooks/useInitiateBroadcast";
+import { useInitiateDonation } from "hooks/useInitiateDonation";
 import { encodeFunctionData, formatUnits } from "viem";
-import { TOME_ABI } from "constants/abis";
+import { MUNUS_ABI } from "constants/abis";
 
 
 const BTN_ICON_CLASSNAME = "inline w-5 h-5 -mt-1";
@@ -21,11 +21,11 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   const [display, setDisplay] = useState("");
 
-  const initiateBroadcast = useInitiateBroadcast();
+  const initiateDonation = useInitiateDonation();
 
   const data = encodeFunctionData({
-    abi: TOME_ABI,
-    functionName: "broadcast",
+    abi: MUNUS_ABI,
+    functionName: "trampoline",
     args: [display],
   });
 
@@ -44,15 +44,16 @@ export function MainForm({ locked, setLocked, calculators }) {
     helper = "Please enter a nonempty message.";
 
   const tip = Math.round(parseFloat(formatUnits(gas, 15)));
-  const message = `Your broadcast will cost ${(tip / 1000).toFixed(3)} ETH in gas.`;
+  const message = `Your donation will cost ${(tip / 1000).toFixed(3)} ETH in gas.`;
+  const secret = "<<SECRET>>";
   return (
-    <Card title="ANONYMOUSLY BROADCAST A MESSAGE">
+    <Card title="ANONYMOUSLY DONATE">
       <div className="text-sm text-yellow-700 pb-2">
         The message you enter and broadcast below will be public, and visible permanently on the blockchain.
         Only <span className="italic">your identity</span> will be hidden; your message will not be. This action cannot be undone.
       </div>
       <div className="font-telegrama text-sm text-stone-700 pb-1">
-        MESSAGE
+        Address
       </div>
       <MessageField
         error={helper.length > 0}
@@ -60,8 +61,11 @@ export function MainForm({ locked, setLocked, calculators }) {
         display={display}
         setDisplay={setDisplay}
         locked={locked}
-        label="Your Message"
+        label="Receiving Address"
       />
+      <div className="text-sm text-yellow-700 pb-2">
+        Your secret: {secret}
+      </div>
       <div className="pb-2 text-sm text-stone-700">
         {message}
       </div>
@@ -72,10 +76,10 @@ export function MainForm({ locked, setLocked, calculators }) {
           || helper.length > 0
           || display === ""
         }
-        pendingLabel="BROADCASTING ANONYMOUSLY"
-        label={<>BROADCAST ANONYMOUSLY <PaperAirplaneIcon className={BTN_ICON_CLASSNAME}/></>}
+        pendingLabel="DONATING ANONYMOUSLY"
+        label={<>DONATE ANONYMOUSLY <PaperAirplaneIcon className={BTN_ICON_CLASSNAME}/></>}
         onClick={() => {
-          return initiateBroadcast({
+          return initiateDonation({
             setDisplay,
             setLocked,
             data,

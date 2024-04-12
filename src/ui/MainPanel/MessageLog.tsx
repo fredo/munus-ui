@@ -10,7 +10,7 @@ import { LoadingSpinner } from "components/loading/LoadingSpinner";
 import { Card } from "@tw/Card";
 import { Grid } from "@tw/Grid";
 import { ADDRESSES } from "constants/addresses";
-import { TOME_ABI } from "constants/abis";
+import { MUNUS_ABI } from "constants/abis";
 import { CHAIN_PARAMS } from "constants/networks";
 
 
@@ -27,14 +27,14 @@ export function MessageLog() {
     getBlock(config).then(async (block) => {
       const retrieve = async (i) => {
         const logs = await publicClient.getLogs({
-          address: ADDRESSES["Base"].TOME,
-          event: parseAbiItem("event Broadcast(address indexed, string)"),
+          address: ADDRESSES["Optimism"].MUNUS,
+          event: parseAbiItem("event DonationReceived(address indexed, bytes32)"),
           fromBlock: block.number - 1000n * (BigInt(i) + 1n) + 1n,
           toBlock: block.number - 1000n * BigInt(i),
         });
         const updates = await Promise.all(logs.map((log) => {
           const topics = decodeEventLog({
-            abi: TOME_ABI,
+            abi: MUNUS_ABI,
             ...log,
           });
           return getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
@@ -59,9 +59,9 @@ export function MessageLog() {
   }, []);
 
   useWatchContractEvent({
-    address: ADDRESSES["Base"].TOME,
-    abi: TOME_ABI,
-    eventName: "Broadcast",
+    address: ADDRESSES["Optimism"].MUNUS,
+    abi: MUNUS_ABI,
+    eventName: "DonationReceived",
     onLogs(logs) {
       logs.forEach((log) => {
         getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
@@ -98,7 +98,7 @@ export function MessageLog() {
 function MessageItem({ args, timestamp, transactionHash }) {
   const { message } = args; // todo: better handling for long messages
   return (
-    <a href={`${CHAIN_PARAMS["Base"].blockExplorerUrl}/tx/${transactionHash}#eventlog`} target="_blank">
+    <a href={`${CHAIN_PARAMS["Optimism"].blockExplorerUrl}/tx/${transactionHash}#eventlog`} target="_blank">
       <div className="font-telegrama bg-stone-900 p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
         <div className="text-sm">
           <div className="inline float-right text-amber-500">

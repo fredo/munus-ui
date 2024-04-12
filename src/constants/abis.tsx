@@ -1,37 +1,71 @@
-export const TOME_ABI = [
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "message",
-        "type": "string"
-      }
-    ],
-    "name": "Broadcast",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "message",
-        "type": "string"
-      }
-    ],
-    "name": "broadcast",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-] as const;
+export const MUNUS_ABI = [
+    {
+      "type": "function",
+      "name": "secrets",
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool",
+          "internalType": "bool"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "trampoline",
+      "inputs": [
+        {
+          "name": "hash",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "payout",
+          "type": "address",
+          "internalType": "address payable"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "payable"
+    },
+    {
+      "type": "event",
+      "name": "DonationReceived",
+      "inputs": [
+        {
+          "name": "receiver",
+          "type": "address",
+          "indexed": false,
+          "internalType": "address"
+        },
+        {
+          "name": "hash",
+          "type": "bytes32",
+          "indexed": false,
+          "internalType": "bytes32"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "SecretAlreadyUsed",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "TransferFailed",
+      "inputs": []
+    }
+  ] as const;
 
 export const ORACLE_ABI = [
   {

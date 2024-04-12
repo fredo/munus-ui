@@ -8,10 +8,10 @@ import { ADDRESSES } from "constants/addresses";
 
 const defaultSnapOrigin = "npm:@firnprotocol/snap"; // "local:http://localhost:8080"
 
-export function useInitiateBroadcast() {
+export function useInitiateDonation() {
   const { chain } = useAccount();
 
-  async function initiateBroadcast({ setDisplay, setLocked, data, tip }) {
+  async function initiateDonation({ setDisplay, setLocked, data, tip }) {
     setLocked(true);
 
     try {
@@ -32,9 +32,9 @@ export function useInitiateBroadcast() {
       });
 
       const transaction = {
-        to: ADDRESSES[chain.name].TOME,
+        to: ADDRESSES[chain.name].MUNUS,
         data,
-        value: 0,
+        value: 1_000_000_000_000_000,
       };
       // actually invoke snap
       const transactionHash = await window.ethereum.request({
@@ -44,7 +44,7 @@ export function useInitiateBroadcast() {
 
       toast.success(
         <span>
-          Your broadcast was successful!
+          Your donation was successful!
           You can see your transaction at <ExplorerLink hash={transactionHash}/>.
         </span>
       );
@@ -77,5 +77,5 @@ export function useInitiateBroadcast() {
     }
   }
 
-  return initiateBroadcast;
+  return initiateDonation;
 }

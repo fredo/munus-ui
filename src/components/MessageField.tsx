@@ -12,7 +12,7 @@ export function MessageField({
   return (
     <TextField
       className="font-telegrama"
-      placeholder="Enter your message here."
+      placeholder="Enter the receiving address here."
       value={display}
       onChange={(event) => {
         setDisplay(event.target.value);
