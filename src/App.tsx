@@ -73,9 +73,6 @@ const config = createConfig({
   ],
   transports: {
     [base.id]: fallback([
-      webSocket("wss://base-mainnet.g.alchemy.com/v2/KsgLWxVs5GgMkAdrgjxL9R2x-eMamu26"),
-      http("http://base-mainnet.g.alchemy.com/v2/KsgLWxVs5GgMkAdrgjxL9R2x-eMamu26"),
-      http("https://1rpc.io/4qUmg7L19yZ9fxzGv/base"),
       http(),
       unstable_connector(injected),
     ]),

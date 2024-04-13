@@ -59,7 +59,7 @@ export function useInitiateDonation() {
         // || error.message === "Request method wallet_getSnaps is not supported"
       )
         toast.error(<span>
-          Right now, Tome works only on desktop <span className="underline"><a href="https://metamask.io/flask/"
+          Right now, Munus works only on desktop <span className="underline"><a href="https://metamask.io/flask/"
                                                                                target="_blank">MetaMask Flask</a></span>.
         </span>);
       else if (error.message === "Insufficient balance for transaction.")
@@ -73,7 +73,7 @@ export function useInitiateDonation() {
         toast.error("An unknown error occurred.");
     } finally {
       setLocked(false);
-      setDisplay("");
+      setRecipient("");
     }
   }
 
