@@ -15,30 +15,26 @@ import { MainPanel } from "@ui/MainPanel";
 
 
 export function Main() {
-  const { address, chain } = useAccount();
-
+  const account = useAccount();
   const [locked, setLocked] = useState(false);
 
   useEffect(() => {
-    if (chain === undefined) {
-      toast.error("Switched to an unsupported chain.");
-    }
-    else {
+    if (account.isConnected && account.chain !== undefined) {
       toast(
-        <span>Switched the chain to <b>{chain.name}</b>.</span>
+        <span>Switched the chain to <b>{account.chain.name}</b>.</span>
       );
     }
-  }, [chain]);
+  }, [account]);
 
   useEffect(() => {
-    if (address) {
+    if (account.address) {
       toast(
         <span>
-          Switched account to <code>{address.slice(0, 6)}...{address.slice(-4)}</code>.
+          Switched account to <code>{account.address.slice(0, 6)}...{account.address.slice(-4)}</code>.
         </span>
       );
     }
-  }, [address]);
+  }, [account]);
 
   return (
     <div className="text-slate-400 bg-stone-800 min-h-screen overflow-hidden">
