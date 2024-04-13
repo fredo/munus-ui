@@ -32,10 +32,6 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   return (
     <Card title="ANONYMOUSLY DONATE">
-      <div className="text-sm text-yellow-900 pb-2">
-        The recipient address and the donation will be broadcast and publicly visible to the blockchain.
-        Only <span className="italic">your identity</span> will be hidden
-      </div>
       <TextField
         className="font-telegrama"
         placeholder="Enter the receiving address here."
@@ -95,6 +91,10 @@ export function MainForm({ locked, setLocked, calculators }) {
           }
         }}
       />
+      <div className="text-sm text-yellow-900 pb-2">
+        The recipient address and the donation will be broadcast and publicly visible to the blockchain.
+        Only <span className="italic">your identity</span> will be hidden
+      </div>
     </Card>
   );
 }
