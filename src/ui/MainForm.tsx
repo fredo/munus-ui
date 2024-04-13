@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import { Card } from "@tw/Card";
 import { SubmitTxButton } from "@components/SubmitTxButton";
 import { SecretBox} from "@components/SecretBox";
-import { TextField } from "@tw/TextField";
+import { DonationInput } from "@tw/DonationInput";
+import { DropDown } from "@tw/DropDown";
 import { useAccount } from "wagmi";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useInitiateDonation } from "hooks/useInitiateDonation";
@@ -24,6 +25,7 @@ export function MainForm({ locked, setLocked, calculators }) {
   const { address, chain } = useAccount();
 
   const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState(1);
   const [secret, _setSecret] = useState(getRandomBytes32());
 
   const initiateDonation = useInitiateDonation();
@@ -32,12 +34,16 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   return (
     <Card title="ANONYMOUSLY DONATE">
-      <TextField
+      <DonationInput
         className="font-telegrama"
         placeholder="Enter the receiving address here."
         value={recipient}
         onChange={(event) => {
           setRecipient(event.target.value);
+        }}
+        onAmountChange={(event) => {
+          setAmount(parseInt(event.target.value));
+
         }}
         disabled={locked}
       />
@@ -85,6 +91,7 @@ export function MainForm({ locked, setLocked, calculators }) {
               setRecipient,
               setLocked,
               data,
+              amount
             });
           } catch(err) {
             toast.error(err.message);

@@ -12,7 +12,7 @@ const defaultSnapOrigin = "npm:@firnprotocol/snap";
 export function useInitiateDonation() {
   const { chain } = useAccount();
 
-  async function initiateDonation({ setRecipient, setLocked, data }) {
+  async function initiateDonation({ setRecipient, setLocked, data, amount}) {
     setLocked(true);
 
     try {
@@ -34,7 +34,7 @@ export function useInitiateDonation() {
       const transaction = {
         to: ADDRESSES[chain.name].MUNUS,
         data,
-        value: 1,
+        value: amount,
       };
       // actually invoke snap
       const transactionHash = await window.ethereum.request({
