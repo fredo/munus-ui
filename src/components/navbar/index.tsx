@@ -21,7 +21,7 @@ export function NavBar({ locked, setLocked }) {
           <span className="hidden md:inline">
             Welcome to
           </span> {" "}
-          TOME
+          Munus
         </span>
       </div>
       <div className="pl-2 pr-5 pt-2.5 pb-1">
