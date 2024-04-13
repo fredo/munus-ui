@@ -1,13 +1,20 @@
-# TOME: _Anonymous Broadcast_, by Firn
+For the repo containing the Munus smart contract, go to: https://github.com/hackaugusto/munus
 
-Tome has two purposes:
-1. To demonstrate, by the means of an open-source, easy-to-understand repository, how to use Firn's [MetaMask Snap](https://github.com/MetaMask/snaps) (itself available on npm at [`@firnprotocol/snap`](https://www.npmjs.com/package/@firnprotocol/snap)).
-2. To be useful in its own right.
+# MUNUS: _Anonymous Donations_, by JAUF
 
-Tome allows anyone to immutably post data onto Ethereum (actually, onto the Base L2), while moreover protecting his identity (by concealing who paid the posting transaction's gas costs). This wasn't possible before Tome!
+Munus allows anonymous donations to charities. It utilizes [Firn](https://firn.cash) to decouple the address of the donator from the transaction to the charity. The donator can at any point in time reveal the secret used to hash the transaction data in order to prove that they did indeed perform the donation. This can be useful for tax returns or other situations where it might be necessary to prove that a donation was done.
 
-Once you understand how Firn's Snap works, Tome is very easy to understand. Firn's Snap lets an arbitrary Dapp (like Tome) privately execute Ethereum transactions on behalf of its users. In the case of Tome, the transactions at hand simply call a function whose sole effect is to emit an Event containing a user-supplied string. Tome solicits this string from the user, and forwards it to Firn's Snap.
+### How it works
 
-How will _your_ Dapp use Firn's Snap to "plug" privacy into its functionality?
+- Prerequisite: User has funds on Firn (currently only Base supported)
+- User connects to Munus website with Metamask using the Firn Snap
+- User selects address of charity and donation amount and hashes it with a secret
+- Firn Snap creates proof for transaction and calls the Munus smart contract
+- Munus smart contract registers the hash of the tx and forwards the funds to the charity
+- User can at any point in time show that he did the transaction buy revealing the secret (currently a "one of" event)
 
-You can access a live, hosted version of Tome at [tome.fm](https://tome.fm). You can also visit Firn's main page at [firn.cash](https://firn.cash).
+### Future improvement
+
+- Charity registration / KYC to assure charities receive money
+- zkp for the donation proof in order to choose who to reveal to
+- Automatic donation receipt generator
