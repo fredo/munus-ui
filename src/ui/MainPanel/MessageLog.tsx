@@ -14,15 +14,16 @@ import { ADDRESSES } from "constants/addresses";
 import { MUNUS_ABI } from "constants/abis";
 import { CHAIN_PARAMS } from "constants/networks";
 
+import { injected } from "wagmi/connectors";
+
 const PAGE_SIZE = 100n;
 
 export function MessageLog() {
   const config = useConfig();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({connectors: [injected()]});
 
   const [pairs, setPairs] = useState([]);
   const [done, setDone] = useState(false);
-
   const mutex = new OrderedMutex();
 
   // Fetch old donation logs
@@ -62,19 +63,24 @@ export function MessageLog() {
     });
   }, []);
 
+
   // Watch for new donation logs
   useWatchContractEvent({
     address: ADDRESSES["Base"].MUNUS,
     abi: MUNUS_ABI,
     eventName: "DonationReceived",
-    onLogs(logs) {
+    poll: true,
+    pollingInterval: 10000,
+    onLogs: (logs) => {
       logs.forEach((log) => {
         getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
           setPairs((pairs) => [{"log": log, "block": block }, ...pairs]);
         });
       });
     },
+    onError: error => console.log(error)
   });
+
 
   return (
     <Card title="RECENT DONATIONS (past 1 hour)" className="mt-2">

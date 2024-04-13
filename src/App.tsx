@@ -61,12 +61,12 @@ const config = createConfig({
   chains: [base],
   pollingInterval: 10000,
   connectors: [
-    walletConnect({ projectId: "7e98ab877dc43e11739016143ae3416e" })
+    injected()
   ],
   transports: {
     [base.id]: fallback([
-      http(),
       unstable_connector(injected),
+      http()
     ]),
   },
 });
