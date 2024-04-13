@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { http, webSocket } from "viem";
+import { http } from "viem";
 import { useAccount, createConfig, fallback, unstable_connector, WagmiProvider } from "wagmi";
 import { CustomToaster } from "@components/toasts/CustomToaster";
 import { base } from "viem/chains";
