@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useConfig, usePublicClient, useWatchContractEvent } from "wagmi";
 import { getBlock } from "wagmi/actions";
-import { decodeEventLog, parseAbiItem } from "viem";
+import { parseAbiItem } from "viem";
+import { formatDistance } from "date-fns";
 
-import { formatDistanceTimestamp } from "@utils/datetime";
 import { OrderedMutex } from "@utils/mutex";
 import { LoadingSpinner } from "components/loading/LoadingSpinner";
 
@@ -102,11 +102,15 @@ function MessageItem({ log, block }) {
       <div className="font-telegrama bg-stone-900 p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
         <div className="text-sm">
           <div className="inline float-right text-amber-500">
-            {formatDistanceTimestamp(Number(block.timestamp))}
+            {timeSince(Number(block.timestamp))}
           </div>
           Address {log.args.receiver} received a donation with hash {log.args.hash} at block {Number(log.blockNumber)}
         </div>
       </div>
     </a>
   );
+}
+
+function timeSince(timestamp) {
+  return formatDistance(new Date(timestamp * 1000), new Date(), { addSuffix: true });
 }
