@@ -84,11 +84,10 @@ export function MessageLog() {
         gap={4}
         className="text-md text-slate-400 py-2"
       >
-        if (pairs.length > 0 || !done) {
+        {pairs.length > 0 || !done ?
           pairs.map((pair, i) => {
             return <MessageItem {...pair} key={i}/>;
-          })
-        } else {
+          }) :
           <span className="pt-2 text-sm text-yellow-700">This account receive no donations.</span>
         }
       </Grid>

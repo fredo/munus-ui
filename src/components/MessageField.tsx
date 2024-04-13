@@ -5,7 +5,7 @@ export function MessageField({
                                error,
                                helper,
                                display,
-                               setDisplay,
+                               setRecipient,
                                locked,
                              }) {
 
@@ -15,7 +15,7 @@ export function MessageField({
       placeholder="Enter the receiving address here."
       value={display}
       onChange={(event) => {
-        setDisplay(event.target.value);
+        setRecipient(event.target.value);
       }}
       disabled={locked}
       helperText={helper}
