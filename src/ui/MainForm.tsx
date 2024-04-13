@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card } from "@tw/Card";
 
 import { SubmitTxButton } from "@components/SubmitTxButton";
+import { SecretBox} from "@components/SecretBox";
 import { TextField } from "@tw/TextField";
 import { useAccount } from "wagmi";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -57,9 +58,10 @@ export function MainForm({ locked, setLocked, calculators }) {
         helperText={helper}
         error={helper.length > 0}
       />
-      <div className="text-sm text-yellow-700 pb-2">
-        Your secret: {secret}
-      </div>
+      <SecretBox
+        className="text-sm text-yellow-700 pb-2"
+        secret={secret}
+        />
       <div className="text-sm text-yellow-700 pb-2">
         secret hash: {hash}
       </div>
