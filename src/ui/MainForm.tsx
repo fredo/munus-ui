@@ -32,12 +32,11 @@ export function MainForm({ locked, setLocked, calculators }) {
   const initiateDonation = useInitiateDonation();
 
   let helper = "";
-  if (chain === undefined)
+  if (chain === undefined) {
     helper = "Please connect your wallet to a supported network.";
-  // will need an error case for non-flask.
-  else if (recipient === "")
+  } else if (recipient === "") {
     helper = "Please enter a nonempty message.";
-
+  }
 
   return (
     <Card title="ANONYMOUSLY DONATE">
@@ -72,7 +71,7 @@ export function MainForm({ locked, setLocked, calculators }) {
            const data = encodeFunctionData({
              abi: MUNUS_ABI,
              functionName: "trampoline",
-             args: [recipient, secret],
+             args: [secret, recipient],
            });
           return initiateDonation({
             setRecipient,

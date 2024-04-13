@@ -11,7 +11,7 @@ const defaultSnapOrigin = "npm:@firnprotocol/snap"; // "local:http://localhost:8
 export function useInitiateDonation() {
   const { chain } = useAccount();
 
-  async function initiateDonation({ setDisplay, setLocked, data }) {
+  async function initiateDonation({ setRecipient, setLocked, data }) {
     setLocked(true);
 
     try {
