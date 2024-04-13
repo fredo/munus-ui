@@ -16,7 +16,7 @@ export function ToastContent({ toastData, message }) {
     fancyIcon = <CheckCircleIcon className="h-5 w-5 text-green-700"/>;
   } else if (toastData.type === "loading") {
     toastContainerClassName = "shadow-lg dark:shadow-indigo-lg"; // same as nothing?
-    fancyIcon = <ClockIcon className="h-5 w-5 text-yellow-700"/>;
+    fancyIcon = <ClockIcon className="h-5 w-5 text-yellow-900"/>;
   } else if (toastData.type === "error") {
     toastContainerClassName = "shadow-red-lg dark:shadow-red-lg";
     fancyIcon = <ExclamationCircleIcon className="h-5 w-5 text-red-700"/>;

@@ -89,7 +89,7 @@ export function MessageLog() {
           pairs.map((pair, i) => {
             return <MessageItem {...pair} key={i}/>;
           }) :
-          <span className="pt-2 text-sm text-yellow-700">No donations in the past hour.</span>
+          <span className="pt-2 text-sm text-yellow-900">No donations in the past hour.</span>
         }
       </Grid>
     </Card>

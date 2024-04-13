@@ -32,7 +32,7 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   return (
     <Card title="ANONYMOUSLY DONATE">
-      <div className="text-sm text-yellow-700 pb-2">
+      <div className="text-sm text-yellow-900 pb-2">
         The recipient address and the donation will be broadcast and publicly visible to the blockchain.
         Only <span className="italic">your identity</span> will be hidden
       </div>
@@ -45,13 +45,23 @@ export function MainForm({ locked, setLocked, calculators }) {
         }}
         disabled={locked}
       />
-      <SecretBox
-        className="text-sm text-yellow-700 pb-2"
-        secret={secret}
-        />
-      <div className="text-sm text-yellow-700 pb-2">
-        secret hash: {hash}
+      <br/>
+      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
+          <SecretBox
+            className="text-sm text-yellow-900 pb-2"
+            secret={secret}
+            />
       </div>
+      <br/>
+      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
+          <div className="text-sm text-yellow-900 pb-2">
+            Your receipt
+          </div>
+          <div className="text-sm text-yellow-900 pb-2">
+            {hash}
+          </div>
+      </div>
+      <br/>
       <SubmitTxButton
         disabled={
           !address

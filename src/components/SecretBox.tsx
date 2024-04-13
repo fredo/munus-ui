@@ -32,8 +32,9 @@ export function SecretBox({className, secret}) {
 
     return (
         <div>
-            <h4>
-                Your secret
+            <h4
+            className={className}>
+                Store your secret safely. You need the secret for your proof-of-donation!
             </h4>
             <Input
                 type={
@@ -46,6 +47,7 @@ export function SecretBox({className, secret}) {
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton
+
                             onClick={
                                 handleClickShowPassword
                             }
@@ -61,6 +63,7 @@ export function SecretBox({className, secret}) {
                         </IconButton>
                     </InputAdornment>
                 }
+                fullWidth
             />
         </div>
     );
