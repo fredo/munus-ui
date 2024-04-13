@@ -49,7 +49,6 @@ export function MainForm({ locked, setLocked, calculators }) {
       <TextField
         className="font-telegrama"
         placeholder="Enter the receiving address here."
-        label="Recipient address"
         value={recipient}
         onChange={(event) => {
           setRecipient(event.target.value);
