@@ -71,7 +71,7 @@ export function MainForm({ locked, setLocked, calculators }) {
            const data = encodeFunctionData({
              abi: MUNUS_ABI,
              functionName: "trampoline",
-             args: [recipient, secret],
+             args: [secret, recipient],
            });
           return initiateDonation({
             setRecipient,

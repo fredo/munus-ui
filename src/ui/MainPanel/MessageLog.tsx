@@ -13,7 +13,6 @@ import { ADDRESSES } from "constants/addresses";
 import { MUNUS_ABI } from "constants/abis";
 import { CHAIN_PARAMS } from "constants/networks";
 
-
 export function MessageLog() {
   const config = useConfig();
   const publicClient = usePublicClient();
