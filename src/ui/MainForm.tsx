@@ -31,13 +31,6 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   const initiateDonation = useInitiateDonation();
 
-  let gas = 0n;
-  if (chain?.name === "Base") {
-    const l2Gas = WITHDRAWAL_GAS;
-    const txCompressedSize = WITHDRAWAL_TX_COMPRESSED_SIZE + optimismTxCompressedSize(data);
-    gas = calculators["Base"](l2Gas, txCompressedSize);
-  }
-
   let helper = "";
   if (chain === undefined)
     helper = "Please connect your wallet to a supported network.";
@@ -45,8 +38,7 @@ export function MainForm({ locked, setLocked, calculators }) {
   else if (recipient === "")
     helper = "Please enter a nonempty message.";
 
-  const tip = Math.round(parseFloat(formatUnits(gas, 15)));
-  const message = `Your donation will cost ${(tip / 1000).toFixed(3)} ETH in gas.`;
+
   return (
     <Card title="ANONYMOUSLY DONATE">
       <div className="text-sm text-yellow-700 pb-2">
@@ -67,9 +59,6 @@ export function MainForm({ locked, setLocked, calculators }) {
       <div className="text-sm text-yellow-700 pb-2">
         Your secret: {secret}
       </div>
-      <div className="pb-2 text-sm text-stone-700">
-        {message}
-      </div>
       <SubmitTxButton
         disabled={
           !address
@@ -89,7 +78,6 @@ export function MainForm({ locked, setLocked, calculators }) {
             setRecipient,
             setLocked,
             data,
-            tip,
           });
         }}
       />

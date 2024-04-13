@@ -11,7 +11,7 @@ const defaultSnapOrigin = "npm:@firnprotocol/snap"; // "local:http://localhost:8
 export function useInitiateDonation() {
   const { chain } = useAccount();
 
-  async function initiateDonation({ setDisplay, setLocked, data, tip }) {
+  async function initiateDonation({ setDisplay, setLocked, data }) {
     setLocked(true);
 
     try {
@@ -64,7 +64,7 @@ export function useInitiateDonation() {
         </span>);
       else if (error.message === "Insufficient balance for transaction.")
         toast.error(
-          <span>Your Firn balance is insufficient to cover the gas fee of {(tip / 1000).toFixed(3)} ETH.
+          <span>Your Firn balance is insufficient.
             Please top up your Firn balance by depositing
             at <a href="https://firn.cash" target="_blank"><span className="underline">firn.cash</span></a>.
           </span>
