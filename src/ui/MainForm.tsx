@@ -35,17 +35,17 @@ export function MainForm({ locked, setLocked, calculators }) {
   if (chain === undefined) {
     helper = "Please connect your wallet to a supported network.";
   } else if (recipient === "") {
-    helper = "Please enter a nonempty message.";
+    helper = "Please enter a nonempty recipient.";
   }
 
   return (
     <Card title="ANONYMOUSLY DONATE">
       <div className="text-sm text-yellow-700 pb-2">
-        The message you enter and broadcast below will be public, and visible permanently on the blockchain.
-        Only <span className="italic">your identity</span> will be hidden; your message will not be. This action cannot be undone.
+        The recipient address and the donation will be broadcast and publicly visible to the blockchain.
+        Only <span className="italic">your identity</span> will be hidden
       </div>
       <div className="font-telegrama text-sm text-stone-700 pb-1">
-        Address
+        Recipient address
       </div>
       <MessageField
         error={helper.length > 0}
@@ -53,7 +53,7 @@ export function MainForm({ locked, setLocked, calculators }) {
         recipient={recipient}
         setRecipient={setRecipient}
         locked={locked}
-        label="Receiving Address"
+        label="Recipient address"
       />
       <div className="text-sm text-yellow-700 pb-2">
         Your secret: {secret}
