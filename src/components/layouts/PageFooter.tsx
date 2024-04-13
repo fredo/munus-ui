@@ -1,15 +1,7 @@
-import {
-  GITHUB_URL,
-  EMAIL_URL,
-
-} from "utils/urls";
-
-
+import { GITHUB_URL, EMAIL_URL } from "utils/urls";
 import GitHubIcon from "@icons/GitHubIcon";
-import TwitterIcon from "@icons/TwitterIcon";
 import EmailIcon from "@icons/EmailIcon";
 import MUNUS_LOGO from "assets/munus.png";
-
 
 export function PageFooter() {
   return (
@@ -17,7 +9,12 @@ export function PageFooter() {
       <div className="mx-auto pb-6 sm:max-w-3xl pt-6 px-8 lg:max-w-7xl">
         <div className="space-y-8 text-center">
           <div className="flex space-x-4 sm:space-x-6 place-content-end lg:place-content-center">
-            <FooterSocialSection/>
+            <a href={GITHUB_URL} target="_blank">
+              <GitHubIcon className={`h-6 w-6 opacity-50 hover:opacity-90 transition`}/>
+            </a>
+            <a href={EMAIL_URL} target="_blank">
+              <EmailIcon className={`h-6 w-6 opacity-50 hover:opacity-90 transition text-zinc-100 hover:text-zinc-100`}/>
+            </a>
           </div>
         </div>
         <div className="mt-10 border-t border-slate-200 pt-4 opacity-20">
@@ -35,30 +32,5 @@ export function PageFooter() {
         </p>
       </div>
     </footer>
-  );
-}
-
-
-function FooterSocialSection() {
-  return (
-    <>
-      <FooterSocialLink
-        href={EMAIL_URL}
-        IconComponent={EmailIcon}
-      />
-      <FooterSocialLink
-        href={GITHUB_URL}
-        IconComponent={GitHubIcon}
-        className="text-zinc-100 hover:text-zinc-100"
-      />
-    </>
-  );
-}
-
-function FooterSocialLink({ href, IconComponent, className }) {
-  return (
-    <a href={href} target="_blank">
-      <IconComponent className={`h-6 w-6 opacity-50 hover:opacity-90 transition ${className}`}/>
-    </a>
   );
 }
