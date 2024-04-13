@@ -13,6 +13,8 @@ import { ADDRESSES } from "constants/addresses";
 import { MUNUS_ABI } from "constants/abis";
 import { CHAIN_PARAMS } from "constants/networks";
 
+const PAGE_SIZE = 100n;
+
 export function MessageLog() {
   const config = useConfig();
   const publicClient = usePublicClient();
@@ -24,12 +26,18 @@ export function MessageLog() {
 
   useEffect(() => {
     getBlock(config).then(async (block) => {
-      const retrieve = async (i) => {
+      const retrieve = async (page) => {
+        // Retrieve donation events, from the most recent to oldest, by PAGE_SIZE blocks.
+        let curr_page = BigInt(page);
+        let next_page = curr_page + 1n;
+        let first_block = block.number - (PAGE_SIZE * curr_page);
+        let last_block = block.number - (PAGE_SIZE * next_page) + 1n; // +1n because getLogs is inclusive
+
         const logs = await publicClient.getLogs({
           address: ADDRESSES["Base"].MUNUS,
           event: parseAbiItem("event DonationReceived(address receiver, bytes32 hash)"),
-          fromBlock: block.number - 100n * (BigInt(i) + 1n) + 1n,
-          toBlock: block.number - 100n * BigInt(i),
+          fromBlock: last_block,
+          toBlock: first_block,
         });
         const updates = await Promise.all(logs.map((log) => {
           const topics = decodeEventLog({
@@ -40,13 +48,12 @@ export function MessageLog() {
             return { ...log, ...topics, ...block }; // push to back of log.
           });
         }));
-        await mutex.acquire(i);
+        await mutex.acquire(page);
         setPairs((pairs) => pairs.concat(updates.reverse())); // concat entire list to front.
         mutex.release();
       }
-      for (let i = 0; i < 10; i++) {
-        await Promise.all(Array.from({ length: 5 }).map((_, j) => retrieve(i * 5 + j)));
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      for (let i = 0; i < 20; i++) {
+        await retrieve(i);
       }
     }).catch((error) => {
       console.error(error);
@@ -71,12 +78,9 @@ export function MessageLog() {
   });
 
   return (
-    <Card title="RECENT DONATIONS" className="mt-2">
+    <Card title="RECENT DONATIONS (past 1 hour)" className="mt-2">
       <div className="pt-2 text-stone-700 text-sm flex">
-        {done ?
-          <span>Past donations retrieved.</span> :
-          <span>Retrieving donations... <LoadingSpinner className="!h-3.5 !w-3.5 mb-1"/></span>
-        }
+        { done ? "" : <span>Retrieving donations... <LoadingSpinner className="!h-3.5 !w-3.5 mb-1"/></span> }
       </div>
       <Grid
         cols={{ xs: 1, sm: 1 }}
@@ -87,7 +91,7 @@ export function MessageLog() {
           pairs.map((pair, i) => {
             return <MessageItem {...pair} key={i}/>;
           }) :
-          <span className="pt-2 text-sm text-yellow-700">This account receive no donations.</span>
+          <span className="pt-2 text-sm text-yellow-700">No donations in the past hour.</span>
         }
       </Grid>
     </Card>
