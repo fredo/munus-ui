@@ -105,7 +105,10 @@ function MessageItem({ log, block }) {
           <div className="inline float-right text-amber-500">
             {timeSince(Number(block.timestamp))}
           </div>
-          Address {log.args.receiver} received a donation with hash {log.args.hash} at block {Number(log.blockNumber)} with {formatUnits(log.args.amount, 18)}
+          Address: {log.args.receiver} <br/>
+          Donation: {formatUnits(log.args.amount, 18)} eth <br/>
+          Receipt: {log.args.hash} <br/>
+          Block: {Number(log.blockNumber)} <br/>
         </div>
       </div>
     </a>
