@@ -66,17 +66,17 @@ export function MessageLog() {
       logs.forEach((log) => {
         getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
           setPairs((pairs) => [{ ...log, ...block }, ...pairs]);
-        }); // .catch((error) => {}); ???
+        });
       });
     },
   });
 
   return (
-    <Card title="RECENT MESSAGES" className="mt-2">
+    <Card title="RECENT DONATIONS" className="mt-2">
       <div className="pt-2 text-stone-700 text-sm flex">
         {done ?
-          <span>Past messages retrieved.</span> :
-          <span>Retrieving past messages... <LoadingSpinner className="!h-3.5 !w-3.5 mb-1"/></span>
+          <span>Past donations retrieved.</span> :
+          <span>Retrieving donations... <LoadingSpinner className="!h-3.5 !w-3.5 mb-1"/></span>
         }
       </div>
       <Grid
@@ -84,11 +84,12 @@ export function MessageLog() {
         gap={4}
         className="text-md text-slate-400 py-2"
       >
-        {pairs.length > 0 || !done ?
+        if (pairs.length > 0 || !done) {
           pairs.map((pair, i) => {
-            return <MessageItem {...pair} key={i}/>; // if (i < 20), else return undefined
-          }) :
-          <span className="pt-2 text-sm text-yellow-700">There are currently no messages to show here.</span>
+            return <MessageItem {...pair} key={i}/>;
+          })
+        } else {
+          <span className="pt-2 text-sm text-yellow-700">This account receive no donations.</span>
         }
       </Grid>
     </Card>
@@ -96,7 +97,7 @@ export function MessageLog() {
 }
 
 function MessageItem({ args, timestamp, transactionHash }) {
-  const { message } = args; // todo: better handling for long messages
+  const { message } = args;
   return (
     <a href={`${CHAIN_PARAMS["Base"].blockExplorerUrl}/tx/${transactionHash}#eventlog`} target="_blank">
       <div className="font-telegrama bg-stone-900 p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
