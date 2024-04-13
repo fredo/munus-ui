@@ -17,12 +17,6 @@ export function NavBar({ locked, setLocked }) {
   return (
     <div className="flex justify-between items-center py-1 md:justify-start md:space-x-2">
       <div className="flex justify-start flex-1">
-        <span className="text-[#fc9e00] font-telegrama text-xl ml-4">
-          <span className="hidden md:inline">
-            Welcome to
-          </span> {" "}
-          Munus
-        </span>
       </div>
       <div className="pl-2 pr-5 pt-2.5 pb-1">
         <NetworkDropdownMenu {...{ locked, setLocked, setSwitching }}>

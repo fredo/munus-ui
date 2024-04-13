@@ -9,7 +9,6 @@ import { base } from "viem/chains";
 import { injected, walletConnect } from "wagmi/connectors";
 
 import { Grid } from "@tw/Grid";
-import { StandardPageContainer } from "@components/StandardPageContainer";
 import { PageFooter } from "@layouts/PageFooter";
 import { NavBar } from "@components/navbar";
 import { MainPanel } from "@ui/MainPanel";
@@ -46,18 +45,15 @@ export function Main() {
       <NavBar
         {...{ locked, setLocked }}
       />
-      <StandardPageContainer>
-        <Grid
-          cols={{ xs: 1 }}
-          className="justify-center place-content-center place-items-center"
-        >
-          <div className="max-w-[46.3rem] w-full">
-            <MainPanel
-              {...{ locked, setLocked }}
-            />
-          </div>
-        </Grid>
-      </StandardPageContainer>
+      <main className="flex-1 relative z-0 overflow-y-auto h-full focus:outline-none">
+        <div className={`2xl:w-3/4 items-center mt-4 sm:mt-6 mx-auto px-4 sm:px-8 md:px-12 py-8 md:pb-14`}>
+          <Grid cols={{ xs: 1 }} className="justify-center place-content-center place-items-center" >
+            <div className="max-w-[46.3rem] w-full">
+              <MainPanel {...{ locked, setLocked }} />
+            </div>
+          </Grid>
+        </div>
+      </main>
       <PageFooter/>
     </div>
   );
