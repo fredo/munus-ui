@@ -35,7 +35,7 @@ export function useInitiateDonation() {
       const transaction = {
         to: ADDRESSES[chain.name].MUNUS,
         data,
-        value: parseEther('0.001'),
+        value: 1,
       };
       // actually invoke snap
       const transactionHash = await window.ethereum.request({
