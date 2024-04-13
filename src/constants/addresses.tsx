@@ -2,7 +2,7 @@ import { Address } from "viem";
 
 export const ADDRESSES = {
   "Base": {
-    MUNUS: "0xf506F44c5b60224dbc86446358f5E82E39395CAA" as Address,
+    MUNUS: "0x744fDb6CC91C3E86Be09A4d49cA77386A21f3dAc" as Address,
     ORACLE: "0x420000000000000000000000000000000000000F" as Address,
   }
 };
