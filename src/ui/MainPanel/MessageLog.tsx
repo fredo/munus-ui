@@ -40,16 +40,13 @@ export function MessageLog() {
           toBlock: first_block,
         });
         const updates = await Promise.all(logs.map((log) => {
-          const topics = decodeEventLog({
-            abi: MUNUS_ABI,
-            ...log,
-          });
           return getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
-            return { ...log, ...topics, ...block }; // push to back of log.
+            return { "log": log, "block": block };
           });
         }));
         await mutex.acquire(page);
-        setPairs((pairs) => pairs.concat(updates.reverse())); // concat entire list to front.
+        console.log(updates);
+        setPairs((pairs) => pairs.concat(updates.reverse()));
         mutex.release();
       }
       for (let i = 0; i < 20; i++) {
@@ -71,7 +68,7 @@ export function MessageLog() {
     onLogs(logs) {
       logs.forEach((log) => {
         getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
-          setPairs((pairs) => [{ ...log, ...block }, ...pairs]);
+          setPairs((pairs) => [{"log": log, "block": block }, ...pairs]);
         });
       });
     },
@@ -98,16 +95,15 @@ export function MessageLog() {
   );
 }
 
-function MessageItem({ args, timestamp, transactionHash }) {
-  const { message } = args;
+function MessageItem({ log, block }) {
   return (
-    <a href={`${CHAIN_PARAMS["Base"].blockExplorerUrl}/tx/${transactionHash}#eventlog`} target="_blank">
+    <a href={`${CHAIN_PARAMS["Base"].blockExplorerUrl}/tx/${log.transactionHash}#eventlog`} target="_blank">
       <div className="font-telegrama bg-stone-900 p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
         <div className="text-sm">
           <div className="inline float-right text-amber-500">
-            {formatDistanceTimestamp(Number(timestamp))}
+            {formatDistanceTimestamp(Number(block.timestamp))}
           </div>
-          {message}
+          Address {log.args.receiver} received a donation with hash {log.args.hash} at block {Number(log.blockNumber)}
         </div>
       </div>
     </a>
