@@ -60,6 +60,9 @@ export function MainForm({ locked, setLocked, calculators }) {
       <div className="text-sm text-yellow-700 pb-2">
         Your secret: {secret}
       </div>
+      <div className="text-sm text-yellow-700 pb-2">
+        secret hash: {hash}
+      </div>
       <SubmitTxButton
         disabled={
           !address
