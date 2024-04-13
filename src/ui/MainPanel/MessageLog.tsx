@@ -27,9 +27,9 @@ export function MessageLog() {
       const retrieve = async (i) => {
         const logs = await publicClient.getLogs({
           address: ADDRESSES["Base"].MUNUS,
-          event: parseAbiItem("event DonationReceived(address indexed, bytes32)"),
-          fromBlock: block.number - 1000n * (BigInt(i) + 1n) + 1n,
-          toBlock: block.number - 1000n * BigInt(i),
+          event: parseAbiItem("event DonationReceived(address receiver, bytes32 hash)"),
+          fromBlock: block.number - 100n * (BigInt(i) + 1n) + 1n,
+          toBlock: block.number - 100n * BigInt(i),
         });
         const updates = await Promise.all(logs.map((log) => {
           const topics = decodeEventLog({
