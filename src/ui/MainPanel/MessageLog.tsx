@@ -24,6 +24,7 @@ export function MessageLog() {
 
   const mutex = new OrderedMutex();
 
+  // Fetch old donation logs
   useEffect(() => {
     getBlock(config).then(async (block) => {
       const retrieve = async (page) => {
@@ -45,7 +46,6 @@ export function MessageLog() {
           });
         }));
         await mutex.acquire(page);
-        console.log(updates);
         setPairs((pairs) => pairs.concat(updates.reverse()));
         mutex.release();
       }
@@ -61,6 +61,7 @@ export function MessageLog() {
     });
   }, []);
 
+  // Watch for new donation logs
   useWatchContractEvent({
     address: ADDRESSES["Base"].MUNUS,
     abi: MUNUS_ABI,
