@@ -1,7 +1,7 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { Card } from "@tw/Card";
-
 import { SubmitTxButton } from "@components/SubmitTxButton";
 import { SecretBox} from "@components/SecretBox";
 import { TextField } from "@tw/TextField";
@@ -28,13 +28,6 @@ export function MainForm({ locked, setLocked, calculators }) {
 
   const initiateDonation = useInitiateDonation();
 
-  let helper = "";
-  if (chain === undefined) {
-    helper = "Please connect your wallet to a supported network.";
-  } else if (recipient === "") {
-    helper = "Please enter an address.";
-  }
-
   const hash = keccak256(secret);
 
   return (
@@ -42,9 +35,6 @@ export function MainForm({ locked, setLocked, calculators }) {
       <div className="text-sm text-yellow-700 pb-2">
         The recipient address and the donation will be broadcast and publicly visible to the blockchain.
         Only <span className="italic">your identity</span> will be hidden
-      </div>
-      <div className="font-telegrama text-sm text-stone-700 pb-1">
-        Recipient address
       </div>
       <TextField
         className="font-telegrama"
@@ -54,8 +44,6 @@ export function MainForm({ locked, setLocked, calculators }) {
           setRecipient(event.target.value);
         }}
         disabled={locked}
-        helperText={helper}
-        error={helper.length > 0}
       />
       <SecretBox
         className="text-sm text-yellow-700 pb-2"
@@ -68,22 +56,33 @@ export function MainForm({ locked, setLocked, calculators }) {
         disabled={
           !address
           || locked
-          || helper.length > 0
           || recipient === ""
         }
         pendingLabel="DONATING ANONYMOUSLY"
         label={<>DONATE ANONYMOUSLY <PaperAirplaneIcon className={BTN_ICON_CLASSNAME}/></>}
         onClick={() => {
-           const data = encodeFunctionData({
-             abi: MUNUS_ABI,
-             functionName: "trampoline",
-             args: [hash, recipient],
-           });
-          return initiateDonation({
-            setRecipient,
-            setLocked,
-            data,
-          });
+          if (chain === undefined) {
+            toast.error("Please connect your wallet to a supported network.");
+            return
+          } else if (recipient === "") {
+            toast.error("Please enter an address.");
+            return
+          }
+
+          try {
+            const data = encodeFunctionData({
+               abi: MUNUS_ABI,
+               functionName: "trampoline",
+               args: [hash, recipient],
+             });
+            return initiateDonation({
+              setRecipient,
+              setLocked,
+              data,
+            });
+          } catch(err) {
+            toast.error(err.message);
+          }
         }}
       />
     </Card>
