@@ -2,20 +2,17 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { Card } from "@tw/Card";
-import { SubmitTxButton } from "@components/SubmitTxButton";
 import { SecretBox} from "@components/SecretBox";
 import { DonationInput } from "@tw/DonationInput";
 import { DropDown } from "@tw/DropDown";
+import { Button } from "@tw/Button";
 import { useAccount } from "wagmi";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useInitiateDonation } from "hooks/useInitiateDonation";
 import { bytesToHex, encodeFunctionData, keccak256} from "viem";
 import { MUNUS_ABI } from "constants/abis";
 
-
-const BTN_ICON_CLASSNAME = "inline w-5 h-5 -mt-1";
 export const WITHDRAWAL_GAS = 3850000n;
-const WITHDRAWAL_TX_COMPRESSED_SIZE = 2900n;
 
 export function getRandomBytes32(): string {
     return bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
@@ -27,6 +24,7 @@ export function MainForm({ locked, setLocked, calculators }) {
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState(1);
   const [secret, _setSecret] = useState(getRandomBytes32());
+  const [isPending, setIsPending] = useState(false);
 
   const initiateDonation = useInitiateDonation();
 
@@ -64,40 +62,54 @@ export function MainForm({ locked, setLocked, calculators }) {
           </div>
       </div>
       <br/>
-      <SubmitTxButton
-        disabled={
-          !address
-          || locked
-          || recipient === ""
-        }
-        pendingLabel="DONATING ANONYMOUSLY"
-        label={<>DONATE ANONYMOUSLY <PaperAirplaneIcon className={BTN_ICON_CLASSNAME}/></>}
-        onClick={() => {
+
+      <Button
+        disabled={!address || locked || recipient === ""}
+        fancy={true}
+        className="w-full font-telegrama rounded-lg`"
+        onClick={async () => {
           if (chain === undefined) {
             toast.error("Please connect your wallet to a supported network.");
             return
-          } else if (recipient === "") {
+          }
+
+          if (recipient === "") {
             toast.error("Please enter an address.");
             return
           }
 
+          setIsPending(true);
           try {
-            const data = encodeFunctionData({
-               abi: MUNUS_ABI,
-               functionName: "trampoline",
-               args: [hash, recipient],
-             });
-            return initiateDonation({
-              setRecipient,
-              setLocked,
-              data,
-              amount
-            });
-          } catch(err) {
-            toast.error(err.message);
+            try {
+              const data = encodeFunctionData({
+                 abi: MUNUS_ABI,
+                 functionName: "trampoline",
+                 args: [hash, recipient],
+               });
+              return initiateDonation({
+                setRecipient,
+                setLocked,
+                data,
+                amount
+              });
+            } catch(err) {
+              toast.error(err.message);
+            }
+          } finally {
+            setIsPending(false);
           }
         }}
-      />
+      >
+        {isPending ?
+          <>
+            <span className="animate-pulse">DONATING ANONYMOUSLY</span>
+            {" "}
+            <ButtonLoadingSpinner className="-mt-1"/>
+          </>
+          :
+          <span>DONATE ANONYMOUSLY <PaperAirplaneIcon className="inline w-5 h-5 -mt-1"/></span>
+        }
+      </Button>
       <br/>
       <br/>
       <div className="text-sm text-yellow-900 pb-2">
