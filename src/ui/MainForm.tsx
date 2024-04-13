@@ -3,12 +3,11 @@ import { useState } from "react";
 import { Card } from "@tw/Card";
 
 import { SubmitTxButton } from "@components/SubmitTxButton";
-import { MessageField } from "@components/MessageField";
+import { TextField } from "@tw/TextField";
 import { useAccount } from "wagmi";
-import { optimismTxCompressedSize } from "utils/gas";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useInitiateDonation } from "hooks/useInitiateDonation";
-import { encodeFunctionData, formatUnits } from "viem";
+import { encodeFunctionData } from "viem";
 import { MUNUS_ABI } from "constants/abis";
 
 
@@ -47,13 +46,17 @@ export function MainForm({ locked, setLocked, calculators }) {
       <div className="font-telegrama text-sm text-stone-700 pb-1">
         Recipient address
       </div>
-      <MessageField
-        error={helper.length > 0}
-        helper={helper}
-        recipient={recipient}
-        setRecipient={setRecipient}
-        locked={locked}
+      <TextField
+        className="font-telegrama"
+        placeholder="Enter the receiving address here."
         label="Recipient address"
+        value={recipient}
+        onChange={(event) => {
+          setRecipient(event.target.value);
+        }}
+        disabled={locked}
+        helperText={helper}
+        error={helper.length > 0}
       />
       <div className="text-sm text-yellow-700 pb-2">
         Your secret: {secret}
