@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 
-import TOME_ICON from "assets/tome.svg";
+import ICON from "assets/munus.png";
 import QUESTION_ICON from "assets/icons/question.svg";
 import { NetworkDropdownMenu } from "@components/navbar/NetworkDropdownMenu";
 import { CHAIN_PARAMS } from "@constants/networks";
@@ -37,7 +37,7 @@ export function NavBar({ locked, setLocked }) {
       </div>
       <WalletDropdownMenu {...{ locked, setLocked, switching, setSwitching }} />
       <div className="pl-3 pr-5 py-3">
-        <img src={TOME_ICON} className="h-7 w-7"/>
+        <img src={ICON} className="h-7 w-7"/>
       </div>
     </div>
   );

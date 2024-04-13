@@ -8,6 +8,6 @@ export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(),
-    vitePluginFaviconsInject("./src/assets/tome.svg")
+    vitePluginFaviconsInject("./src/assets/munus.png")
   ],
 })
