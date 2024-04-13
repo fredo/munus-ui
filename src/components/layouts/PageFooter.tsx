@@ -1,5 +1,4 @@
 import {
-  TWITTER_URL,
   GITHUB_URL,
   EMAIL_URL,
 
@@ -43,11 +42,6 @@ export function PageFooter() {
 function FooterSocialSection() {
   return (
     <>
-      <FooterSocialLink
-        href={TWITTER_URL}
-        IconComponent={TwitterIcon}
-        className="text-blue-400 hover:text-blue-400"
-      />
       <FooterSocialLink
         href={EMAIL_URL}
         IconComponent={EmailIcon}

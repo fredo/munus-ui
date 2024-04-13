@@ -20,24 +20,25 @@ export function Main() {
 
   const [locked, setLocked] = useState(false);
 
-  // really the below two useEffects can (apparently) go essentially anywhere.
-  useEffect(() => { // watchChainId
-    if (chain === undefined) toast.error("Switched to an unsupported chain."); // Your wallet has been disconnected.
-    else
+  useEffect(() => {
+    if (chain === undefined) {
+      toast.error("Switched to an unsupported chain.");
+    }
+    else {
       toast(
-        <span>
-            Switched the chain to <b>{chain.name}</b>.
-          </span>
+        <span>Switched the chain to <b>{chain.name}</b>.</span>
       );
+    }
   }, [chain]);
 
-  useEffect(() => { // watchAccount
-    if (address)
+  useEffect(() => {
+    if (address) {
       toast(
         <span>
           Switched account to <code>{address.slice(0, 6)}...{address.slice(-4)}</code>.
         </span>
       );
+    }
   }, [address]);
 
   return (

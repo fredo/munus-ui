@@ -39,7 +39,7 @@ export function MessageLog() {
           });
           return getBlock(config, { blockNumber: log.blockNumber }).then((block) => {
             return { ...log, ...topics, ...block }; // push to back of log.
-          }); // .catch((error) => {}); ???
+          });
         }));
         await mutex.acquire(i);
         setPairs((pairs) => pairs.concat(updates.reverse())); // concat entire list to front.
