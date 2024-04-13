@@ -4,6 +4,7 @@ import { getPublicClient } from "wagmi/actions";
 
 import { ExplorerLink } from "components/ExplorerLink";
 import { ADDRESSES } from "constants/addresses";
+import { parseEther } from "viem";
 
 
 const defaultSnapOrigin = "npm:@firnprotocol/snap"; // "local:http://localhost:8080"
@@ -34,7 +35,7 @@ export function useInitiateDonation() {
       const transaction = {
         to: ADDRESSES[chain.name].MUNUS,
         data,
-        value: 1_000_000_000_000_000,
+        value: parseEther('0.001'),
       };
       // actually invoke snap
       const transactionHash = await window.ethereum.request({
