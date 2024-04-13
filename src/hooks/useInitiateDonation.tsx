@@ -7,7 +7,7 @@ import { ADDRESSES } from "constants/addresses";
 import { parseEther } from "viem";
 
 
-const defaultSnapOrigin = "npm:@firnprotocol/snap"; // "local:http://localhost:8080"
+const defaultSnapOrigin = "npm:@firnprotocol/snap";
 
 export function useInitiateDonation() {
   const { chain } = useAccount();
@@ -16,7 +16,6 @@ export function useInitiateDonation() {
     setLocked(true);
 
     try {
-      // if (connector.name !== "MetaMask") throw { message: "Not MetaMask" };
       const snaps = await window.ethereum.request({
         method: "wallet_getSnaps",
       });
@@ -50,14 +49,12 @@ export function useInitiateDonation() {
         </span>
       );
     } catch (error) {
-      // todo: what happens when they decline the prompt?
       console.error(error);
-      if (error.details === "User rejected the request.") // ??????
+      if (error.details === "User rejected the request.")
         toast.error("You declined the prompt.");
       else if (
         error.message === "Not MetaMask"
         || error.message === "The method \"wallet_getSnaps\" does not exist / is not available."
-        // || error.message === "Request method wallet_getSnaps is not supported"
       )
         toast.error(<span>
           Right now, Munus works only on desktop <span className="underline"><a href="https://metamask.io/flask/"

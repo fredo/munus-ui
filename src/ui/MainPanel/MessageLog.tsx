@@ -36,7 +36,7 @@ export function MessageLog() {
 
         const logs = await publicClient.getLogs({
           address: ADDRESSES["Base"].MUNUS,
-          event: parseAbiItem("event DonationReceived(address receiver, bytes32 hash)"),
+          event: parseAbiItem("event DonationReceived(address receiver, bytes32 hash, uint amount)"),
           fromBlock: last_block,
           toBlock: first_block,
         });

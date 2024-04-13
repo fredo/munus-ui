@@ -1,71 +1,82 @@
 export const MUNUS_ABI = [
-    {
-      "type": "function",
-      "name": "secrets",
-      "inputs": [
-        {
-          "name": "",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "trampoline",
-      "inputs": [
-        {
-          "name": "hash",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        },
-        {
-          "name": "payout",
-          "type": "address",
-          "internalType": "address payable"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "payable"
-    },
-    {
-      "type": "event",
-      "name": "DonationReceived",
-      "inputs": [
-        {
-          "name": "receiver",
-          "type": "address",
-          "indexed": false,
-          "internalType": "address"
-        },
-        {
-          "name": "hash",
-          "type": "bytes32",
-          "indexed": false,
-          "internalType": "bytes32"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "error",
-      "name": "SecretAlreadyUsed",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "TransferFailed",
-      "inputs": []
-    }
-  ] as const;
+  {
+    "type": "function",
+    "name": "secrets",
+    "inputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "trampoline",
+    "inputs": [
+      {
+        "name": "hash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "payout",
+        "type": "address",
+        "internalType": "address payable"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "event",
+    "name": "DonationReceived",
+    "inputs": [
+      {
+        "name": "receiver",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "hash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "HashAlreadyUsed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidAmount",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TransferFailed",
+    "inputs": []
+  }
+] as const;
 
 export const ORACLE_ABI = [
   {
