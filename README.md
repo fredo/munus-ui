@@ -1,4 +1,4 @@
-For the repo containing the Munus smart contract, go to: https://github.com/hackaugusto/munus
+This is the repo containing the front end for Munus. The repo containing the Munus smart contracts can be found here: https://github.com/hackaugusto/munus
 
 # MUNUS: _Anonymous Donations_, by JAUF
 
@@ -7,7 +7,7 @@ Munus allows anonymous donations to charities. It utilizes [Firn](https://firn.c
 ### How it works
 
 - Prerequisite: User has funds on Firn (currently only Base supported)
-- User connects to Munus website with Metamask using the Firn Snap
+- User connects to Munus website with Metamask using the Firn MetaMask Snap
 - User selects address of charity and donation amount and hashes it with a secret
 - Firn Snap creates proof for transaction and calls the Munus smart contract
 - Munus smart contract registers the hash of the tx and forwards the funds to the charity
@@ -18,3 +18,4 @@ Munus allows anonymous donations to charities. It utilizes [Firn](https://firn.c
 - Charity registration / KYC to assure charities receive money
 - zkp for the donation proof in order to choose who to reveal to
 - Automatic donation receipt generator
+- Arbritrary wallet supprt (dependent on wallets supporting MM Snaps)
