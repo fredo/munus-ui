@@ -7,7 +7,7 @@ import { TextField } from "@tw/TextField";
 import { useAccount } from "wagmi";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useInitiateDonation } from "hooks/useInitiateDonation";
-import { encodeFunctionData } from "viem";
+import { bytesToHex, encodeFunctionData, keccak256} from "viem";
 import { MUNUS_ABI } from "constants/abis";
 
 
@@ -16,10 +16,7 @@ export const WITHDRAWAL_GAS = 3850000n;
 const WITHDRAWAL_TX_COMPRESSED_SIZE = 2900n;
 
 export function getRandomBytes32(): string {
-    const length: number = 64;
-    const array: number[] = [...Array(length)];
-    const number: string = array.map(() => Math.floor(Math.random() * 16).toString(16)).join("");
-    return "0x" + number;
+    return bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
 }
 
 export function MainForm({ locked, setLocked, calculators }) {
@@ -34,8 +31,10 @@ export function MainForm({ locked, setLocked, calculators }) {
   if (chain === undefined) {
     helper = "Please connect your wallet to a supported network.";
   } else if (recipient === "") {
-    helper = "Please enter a nonempty recipient.";
+    helper = "Please enter an address.";
   }
+
+  const hash = keccak256(secret);
 
   return (
     <Card title="ANONYMOUSLY DONATE">
@@ -74,7 +73,7 @@ export function MainForm({ locked, setLocked, calculators }) {
            const data = encodeFunctionData({
              abi: MUNUS_ABI,
              functionName: "trampoline",
-             args: [secret, recipient],
+             args: [hash, recipient],
            });
           return initiateDonation({
             setRecipient,
