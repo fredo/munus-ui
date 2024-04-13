@@ -6,6 +6,7 @@ import { formatDistance } from "date-fns";
 
 import { OrderedMutex } from "@utils/mutex";
 import { LoadingSpinner } from "components/loading/LoadingSpinner";
+import { formatUnits } from "viem";
 
 import { Card } from "@tw/Card";
 import { Grid } from "@tw/Grid";
@@ -104,7 +105,7 @@ function MessageItem({ log, block }) {
           <div className="inline float-right text-amber-500">
             {timeSince(Number(block.timestamp))}
           </div>
-          Address {log.args.receiver} received a donation with hash {log.args.hash} at block {Number(log.blockNumber)}
+          Address {log.args.receiver} received a donation with hash {log.args.hash} at block {Number(log.blockNumber)} with {formatUnits(log.args.amount, 18)}
         </div>
       </div>
     </a>

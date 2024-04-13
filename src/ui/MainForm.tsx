@@ -45,28 +45,10 @@ export function MainForm({ locked, setLocked, calculators }) {
         }}
         disabled={locked}
       />
-      <br/>
-      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
-          <SecretBox
-            className="text-sm text-yellow-900 pb-2"
-            secret={secret}
-            />
-      </div>
-      <br/>
-      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
-          <div className="text-sm text-yellow-900 pb-2">
-            Your receipt
-          </div>
-          <div className="text-sm text-yellow-900 pb-2">
-            {hash}
-          </div>
-      </div>
-      <br/>
-
       <Button
         disabled={!address || locked || recipient === ""}
         fancy={true}
-        className="w-full font-telegrama rounded-lg`"
+        className="w-full font-telegrama rounded-lg h-14"
         onClick={async () => {
           if (chain === undefined) {
             toast.error("Please connect your wallet to a supported network.");
@@ -110,11 +92,25 @@ export function MainForm({ locked, setLocked, calculators }) {
           <span>DONATE ANONYMOUSLY <PaperAirplaneIcon className="inline w-5 h-5 -mt-1"/></span>
         }
       </Button>
-      <br/>
-      <br/>
       <div className="text-sm text-yellow-900 pb-2">
         The recipient address and the donation will be broadcast and publicly visible to the blockchain.
-        Only <span className="italic">your identity</span> will be hidden
+        Only <span className="italic">your identity</span> will be hidden.
+      </div>
+
+      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
+          <SecretBox
+            className="text-sm text-yellow-900 pb-2"
+            secret={secret}
+            />
+      </div>
+      <br/>
+      <div className="font-telegrama p-2 border-2 border-slate-800 hover:border-orange-500 hover:shadow-slate-100/20 rounded-md">
+          <div className="text-sm text-yellow-900 pb-2">
+            Your receipt
+          </div>
+          <div className="text-sm text-yellow-900 pb-2">
+            {hash}
+          </div>
       </div>
     </Card>
   );
