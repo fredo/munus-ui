@@ -18,7 +18,7 @@ The user selects the address of the charity and donation amount and hashes it wi
 ### Future improvement
 
 - Charity registration / KYC to ensure charities receive money
-- zkp for the donation proof to choose who to reveal to
+- zk proof of donation without revealing the secret
 - Automatic donation receipt generator
 - Arbitrary wallet support (dependent on wallets supporting MM Snaps)
 
